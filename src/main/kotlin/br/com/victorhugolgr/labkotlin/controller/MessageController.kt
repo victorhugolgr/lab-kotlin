@@ -1,16 +1,15 @@
 package br.com.victorhugolgr.labkotlin.controller
 
 import br.com.victorhugolgr.labkotlin.domain.Message
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import br.com.victorhugolgr.labkotlin.service.MessageService
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class MessageController {
+@RequestMapping("/message")
+class MessageController(val messageService: MessageService) {
     @GetMapping
-    fun index(): List<Message> = listOf(
-        Message("1", "Hello!"),
-        Message(text = "Bonjour!", id = "2"),
-
-        )
+    fun findAll(): List<Message> = messageService.findMessages()
+    @PostMapping
+    fun save(@RequestBody message: Message) = messageService.post(message)
 }
 
